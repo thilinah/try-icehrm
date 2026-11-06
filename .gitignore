@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.build/
+vendor-src/
+web/public/icehrm-bundle.zip
+.DS_Store
+
+# Local environment, logs and editor files
+.env
+.env.*
+*.log
+.idea/
+.vscode/

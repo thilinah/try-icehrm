@@ -1,0 +1,28 @@
+{
+  "name": "try-icehrm",
+  "version": "0.1.0",
+  "private": true,
+  "description": "IceHrm running entirely in the browser on PHP WebAssembly (try.icehrm.org)",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "fetch:sqlite": "sh scripts/fetch-sqlite-driver.sh",
+    "build:bundle": "node scripts/build-bundle.mjs",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "sh scripts/deploy.sh"
+  },
+  "dependencies": {
+    "@php-wasm/universal": "3.1.58",
+    "@php-wasm/web": "3.1.58",
+    "fflate": "0.8.2"
+  },
+  "devDependencies": {
+    "@php-wasm/node": "3.1.58",
+    "vite": "5.4.11"
+  }
+}

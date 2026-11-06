@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Try IceHrm</title>
+    <meta name="description" content="Try IceHrm, the open-source HR management system, right in your browser. Nothing to install - it runs entirely on your device." />
+    <link rel="icon" type="image/png" href="https://icehrm.s3.amazonaws.com/images/icon16.png" />
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <a class="brand" href="https://icehrm.com" target="_blank" rel="noopener">IceHrm</a>
+      <span class="tag">Playground</span>
+      <span class="tag" id="storage" hidden></span>
+      <span class="logins" id="logins" hidden>
+        Sign in as <code>admin</code>, <code>manager</code> or <code>user1</code> &middot; password <code id="password">demo1234</code>
+      </span>
+      <span class="spacer"></span>
+      <button type="button" id="reset" class="button" hidden>Reset demo</button>
+      <a class="button primary" href="https://github.com/gamonoid/icehrm/releases/latest" target="_blank" rel="noopener">Download IceHrm</a>
+    </header>
+
+    <main>
+      <section id="loading" class="loading" aria-live="polite">
+        <h1>Starting IceHrm in your browser</h1>
+        <p class="lead">Everything runs on your device: PHP, the database and your data. Nothing you enter leaves this browser.</p>
+        <ol class="steps">
+          <li data-step="php">Loading PHP</li>
+          <li data-step="download">Downloading IceHrm <span id="download-progress"></span></li>
+          <li data-step="unpack">Unpacking</li>
+          <li data-step="storage">Setting up browser storage</li>
+          <li data-step="ready">Opening the login page</li>
+        </ol>
+        <p id="error" class="error" hidden></p>
+        <p class="note">Your changes are saved in this browser. Use Reset demo to start again.</p>
+      </section>
+      <iframe id="app" title="IceHrm" hidden></iframe>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
