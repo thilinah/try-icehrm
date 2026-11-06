@@ -1,7 +1,7 @@
 # Try IceHrm
 
-IceHrm running entirely in the browser, the way [WordPress Playground](https://playground.wordpress.net)
-runs WordPress. Planned home: **https://try.icehrm.org**.
+IceHrm running entirely in the browser: PHP, the database and the application all run on
+the visitor's device, with no server behind them. Live at **https://icehrm.github.io/**.
 
 > **Status: proof of concept.** Not for real HR data. Changes are saved in the visitor's
 > browser until they choose **Reset demo**.
@@ -18,11 +18,11 @@ runs WordPress. Planned home: **https://try.icehrm.org**.
                                                                        └─ SQLite database
 ```
 
-- **PHP** comes from [`@php-wasm`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm),
-  the runtime behind WordPress Playground.
-- **MySQL** is replaced with SQLite through WordPress's
-  [MySQL-on-SQLite driver](https://github.com/WordPress/sqlite-database-integration/tree/trunk/packages/mysql-on-sqlite),
-  which translates MySQL queries to SQLite. IceHrm talks to MySQL through mysqli, so
+- **PHP** comes from [`@php-wasm`](https://www.npmjs.com/package/@php-wasm/web), PHP compiled
+  to WebAssembly.
+- **MySQL** is replaced with SQLite through a MySQL-on-SQLite driver (fetched by
+  [`scripts/fetch-sqlite-driver.sh`](scripts/fetch-sqlite-driver.sh)), which translates MySQL
+  queries to SQLite. IceHrm talks to MySQL through mysqli, so
   [`php/SqliteMysqli.php`](php/SqliteMysqli.php) implements the parts of the mysqli API
   IceHrm uses on top of that driver, emulating prepared statements.
 - **The build** ([`scripts/build-bundle.mjs`](scripts/build-bundle.mjs)) takes an IceHrm release,
@@ -85,7 +85,7 @@ replacing the previous one, and does nothing if the branch already has the same 
 `npm run deploy -- --dry-run` goes through the steps without updating the branch. Pages
 publishes a new build within a few minutes.
 
-### Other hosts (try.icehrm.org)
+### Other hosts
 
 `npm run build` writes a static site to `dist/`. Any static host works
 (S3 + CloudFront, GitHub Pages, Netlify, Cloudflare Pages):
