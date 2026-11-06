@@ -114,5 +114,5 @@ publishes a new build within a few minutes.
 
 ## License
 
-GPL-3.0-or-later, like IceHrm. The MySQL-on-SQLite driver is GPL-2.0-or-later and
+GPL-3.0-or-later, like IceHrm; see [LICENSE](LICENSE). The MySQL-on-SQLite driver is GPL-2.0-or-later and
 `@php-wasm` is GPL-2.0-or-later.
