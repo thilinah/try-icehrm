@@ -138,7 +138,6 @@ async function mountStorage(php, bundleId, reset) {
   }
 
   for (const [name, path] of SAVED_DIRS) {
-    php.mkdirTree(path);
     const handle = await dir.getDirectoryHandle(name, { create: true });
     await php.mount(
       path,
@@ -173,6 +172,10 @@ async function boot({ scope: tabScope, origin, bundleUrl, reset }) {
   const zip = await download(bundleUrl);
   progress('unpack');
   const info = unpack(php, zip);
+  // The zip holds no empty folders, and IceHrm refuses uploads when its data folder is
+  // missing ("Upload directory is not writable"), so create the data folders here -
+  // whether or not they are then connected to browser storage.
+  for (const [, path] of SAVED_DIRS) php.mkdirTree(path);
 
   // 'restored' | 'new' when saved in the browser, 'temporary' when another tab owns
   // the saved copy, 'unavailable' when the browser offers no storage.
