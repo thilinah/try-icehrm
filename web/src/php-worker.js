@@ -9,7 +9,7 @@
  * System, so they survive a reload. Only one tab can own that saved copy; any other
  * tab open at the same time runs a temporary, in-memory IceHrm.
  */
-import { PHP, PHPRequestHandler } from '@php-wasm/universal';
+import { PHP, PHPRequestHandler, setPhpIniEntries } from '@php-wasm/universal';
 import { createDirectoryHandleMountHandler, loadWebRuntime } from '@php-wasm/web';
 import { unzipSync } from 'fflate';
 
@@ -162,6 +162,13 @@ async function boot({ scope: tabScope, origin, bundleUrl, reset }) {
   progress('php');
   const php = new PHP(await loadWebRuntime(PHP_VERSION));
   phpInstance = php;
+  // No network from PHP: a connection attempt in the browser hangs for minutes and
+  // blocks every other request. Switch off the functions that connect, so those calls
+  // fail at once (php/config.php defines stand-ins that return false).
+  await setPhpIniEntries(php, {
+    allow_url_fopen: '0',
+    disable_functions: 'curl_exec,curl_multi_exec,fsockopen,pfsockopen,stream_socket_client',
+  });
 
   const zip = await download(bundleUrl);
   progress('unpack');

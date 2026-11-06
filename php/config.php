@@ -38,9 +38,45 @@ if (!defined('PLAYGROUND_BASE_URL')) {
     define('PLAYGROUND_BASE_URL', 'http://localhost/');
 }
 
-// The browser has no outbound network for PHP, and a call to icehrm.com (news,
-// marketplace) would otherwise block the only PHP instance until curl times out.
-// Point it at a closed local port so those calls fail immediately.
+// PHP in the browser cannot open network connections. An attempt does not fail, it
+// waits for minutes, and with a single PHP instance the whole app stops responding
+// meanwhile. IceHrm connects on its own in places - it reports installation data to
+// icehrm.com once an hour, for example. The worker therefore switches off the functions
+// that connect (allow_url_fopen and disable_functions, see web/src/php-worker.js), and
+// these stand-ins make every such call fail at once, as it would with no connectivity.
+// curl_multi_exec is left undefined on purpose: a stand-in that never completes a
+// transfer would make Guzzle wait forever, without it Guzzle uses curl_exec.
+if (!function_exists('curl_exec')) {
+    function curl_exec($handle)
+    {
+        return false;
+    }
+}
+if (!function_exists('fsockopen')) {
+    function fsockopen($hostname, $port = -1, &$error_code = null, &$error_message = null, $timeout = null)
+    {
+        $error_code = 101;
+        $error_message = 'No network in the browser playground';
+        return false;
+    }
+}
+if (!function_exists('pfsockopen')) {
+    function pfsockopen($hostname, $port = -1, &$error_code = null, &$error_message = null, $timeout = null)
+    {
+        return fsockopen($hostname, $port, $error_code, $error_message, $timeout);
+    }
+}
+if (!function_exists('stream_socket_client')) {
+    function stream_socket_client($address, &$error_code = null, &$error_message = null, $timeout = null, $flags = 0, $context = null)
+    {
+        $error_code = 101;
+        $error_message = 'No network in the browser playground';
+        return false;
+    }
+}
+
+// Keep IceHrm's calls home (news, marketplace, updates) away from icehrm.com even if
+// the functions above are available, as they are while the database is built in Node.
 define('APP_WEB_URL', 'http://127.0.0.1:9');
 
 define('APP_NAME', 'Ice Hrm');

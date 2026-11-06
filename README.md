@@ -104,7 +104,9 @@ publishes a new build within a few minutes.
 ## Known limits (proof of concept)
 
 - **No network features.** Email, the Microsoft/Google integrations, S3 storage, the
-  marketplace and the updater don't work in the browser.
+  marketplace and the updater don't work in the browser. PHP's network functions are
+  switched off, because a connection attempt in the browser hangs and blocks the single
+  PHP instance; such calls fail at once instead (see `php/config.php`).
 - **No background jobs.** There is no cron or worker process.
 - **SQL coverage.** IceHrm uses MySQL-specific SQL in many places; anything the
   translator can't handle shows up as an error in that screen. The build report lists
