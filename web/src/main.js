@@ -88,6 +88,23 @@ async function start() {
   });
 }
 
+// The IceHrm Cloud banner can be dismissed; the choice is remembered in this browser.
+const CLOUD_BANNER_KEY = 'icehrm-cloud-banner';
+const cloudBanner = document.querySelector('.cloud-banner');
+try {
+  if (localStorage.getItem(CLOUD_BANNER_KEY) === 'hidden') cloudBanner.hidden = true;
+} catch {
+  // Storage may be unavailable (e.g. some private windows); then the banner just shows.
+}
+document.getElementById('cloud-close').addEventListener('click', () => {
+  cloudBanner.hidden = true;
+  try {
+    localStorage.setItem(CLOUD_BANNER_KEY, 'hidden');
+  } catch {
+    // Not remembered, but hidden for this page view.
+  }
+});
+
 document.getElementById('reset').addEventListener('click', () => {
   // The saved data is cleared by the worker on the next start.
   sessionStorage.setItem(RESET_FLAG, '1');
