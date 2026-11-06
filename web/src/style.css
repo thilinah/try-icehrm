@@ -98,6 +98,20 @@ code {
   color: var(--accent-text);
 }
 
+/* "Reset demo": yellow, as it discards the visitor's saved data. */
+.button.warn {
+  background: #facc15;
+  border-color: #eab308;
+  color: #1f1a05;
+}
+
+/* "Learn more": the IceHrm Cloud blue, matching the banner. */
+.button.learn {
+  background: #0369a1;
+  border-color: #0369a1;
+  color: #ffffff;
+}
+
 /* IceHrm Cloud advertisement: a full-width strip under the header. */
 .cloud-banner {
   position: relative;
