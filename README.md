@@ -98,7 +98,7 @@ publishes a new build within a few minutes.
 - The first visit downloads the PHP runtime and the IceHrm bundle (tens of MB); later
   visits come from the browser cache.
 - `dist/` is about 410 MB because Vite emits every PHP version `@php-wasm/web` ships.
-  Only PHP 8.3 is ever requested (about 18 MB plus the 37 MB bundle), so the rest is
+  Only PHP 8.3 is ever requested (about 18 MB plus the 39 MB bundle), so the rest is
   dead weight on the host; prune it before upload if storage matters.
 
 ## Known limits (proof of concept)
